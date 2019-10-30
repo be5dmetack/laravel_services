@@ -12,4 +12,17 @@ class ServiceController extends Controller
 
         return view('services.index', compact('services'));
     }
+
+    public function category(Request $request)
+    {
+        $category= $request->input('categories');
+        $price= $request->input('price');
+        $location= $request->input('location');
+//        return $category;
+        $All_service = Service::all();
+        $result=Service::where(['category'=>$category,'price'=>$price,'location'=>$location])->get();
+        return $result ;
+//        return $this->index($result);
+//        return view('Service.all_service', compact('All_service','category'));
+    }
 }
