@@ -11,6 +11,7 @@
 
         <div class="history mt-4">
             <h3 class="text-muted ml-5">List of services</h3>
+
             <ul>
                 @if(count($services) > 0)
                     <div class="container">

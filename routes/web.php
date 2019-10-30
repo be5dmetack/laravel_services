@@ -25,6 +25,7 @@ Route::get('/dashboard', 'ClientController@dashboard')->name('dashboard');
 Route::get('/dashboard/create', 'ClientController@create')->name('service.create');
 Route::post('/dashboard/save', 'ClientController@save');
 Route::get('/services/{service}', 'ClientController@show');
+Route::post('/category','ServiceController@category')->name('category');
 
 Route::get('/services', 'ServiceController@index')->name('services');
 //Route::resource('home', 'ClientController');
