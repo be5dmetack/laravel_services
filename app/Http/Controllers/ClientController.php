@@ -10,12 +10,22 @@ use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function dashboard()
     {
-        //  $logged_user = Auth::user();
+//        return Auth::id();
+// // TODO: fix bug handle if user not exist
+        $role = Auth::user()->role;
 
-        $user = Client::findOrFail(1); // logged user id;
-        $services = $user->services()->get();
+        if ($role == 'client')
+            redirect('/');
+
+        $user = Client::findOrFail(Auth::id()); // logged user id;
+        $services = $user->services()->paginate(9);
 
         return view('client.dashboard', compact('services'));
     }
@@ -27,7 +37,7 @@ class ClientController extends Controller
 
     public function save(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'title' => 'required',
             'description' => 'required',
             'price' => 'required',
@@ -43,10 +53,10 @@ class ClientController extends Controller
             'location' => $request->location,
             'time' => $request->time,
             'category' => $request->category,
-            'client_id' => 1 // the authenticated user id (logged user id)
+            'client_id' => Auth::id()
         ]);
 
-        return redirect('/dashboard');
+        return redirect('/home');
     }
 
     public function show($id)

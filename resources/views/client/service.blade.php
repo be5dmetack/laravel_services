@@ -1,4 +1,4 @@
-@extends('client.layout')
+@extends('layouts.app')
 
 @section('content')
     <a href="/dashboard" class="btn btn-outline-dark my-2">Go back</a>

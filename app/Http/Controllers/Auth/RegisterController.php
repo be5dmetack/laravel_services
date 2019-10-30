@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Client;
+use App\Provider;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/dashboard';
 
     /**
      * Create a new controller instance.
@@ -43,7 +45,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -52,21 +54,58 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'age' => ['required'],
+            'phone' => ['required', 'max:15'],
+            'role' => ['required']
         ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \App\User
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'age' => $data['age'],
+            'image' => $data['image'],
+            'phone' => $data['phone'],
+            'role' => $data['role']
         ]);
+
+        $id = User::where('email', $data['email'])->get()[0]->id;
+
+        if ($data['role'] == 'provider') {
+            Provider::create([
+                'id' => $id,
+                'user_id' => $id,
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'age' => $data['age'],
+                'image' => $data['image'],
+                'phone' => $data['phone'],
+                'role' => $data['role']
+            ]);
+        }
+        elseif ($data['role'] == 'client') {
+            Client::create([
+                'id' => $id,
+                'user_id' => $id,
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'age' => $data['age'],
+                'image' => $data['image'],
+                'phone' => $data['phone'],
+                'role' => $data['role']
+            ]);
+        }
+
+        return $user;
     }
 }
+

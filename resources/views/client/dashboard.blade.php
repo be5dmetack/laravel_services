@@ -1,4 +1,5 @@
-@extends('client.layout')
+{{--@extends('client.layout')--}}
+@extends('layouts.app')
 
 @section('content')
     <h1>Dashboard</h1>

@@ -1,4 +1,4 @@
-@extends('client.layout')
+@extends('layouts.app')
 
 @section('content')
     <h1 class="text-muted">Create a new post</h1>

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Provider extends Model
 {
     //
-    protected $fillable = ['name', 'email', 'password', 'age', 'image'];
+    protected $fillable = ['name', 'email', 'age', 'image', 'phone', 'id', 'user_id', 'role'];
 
     public function providers()
     {
